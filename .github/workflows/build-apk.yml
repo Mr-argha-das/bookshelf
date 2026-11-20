@@ -1,0 +1,69 @@
+name: Build Folio Android APK
+
+on:
+  push:
+    branches:
+      - main
+      - 'arena/**'
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  build-apk:
+    name: Analyze, Test & Build APK
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Java 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: 'stable'
+          cache: true
+
+      - name: Generate Android platform files
+        run: |
+          if [ ! -d "android" ]; then
+            flutter create --platforms=android --project-name folio --org com.folio.app --no-pub .
+            git checkout -- lib/ test/ pubspec.yaml analysis_options.yaml README.md
+          fi
+          # Set app display name to Folio and ensure INTERNET permission for Google Fonts
+          MANIFEST="android/app/src/main/AndroidManifest.xml"
+          if [ -f "$MANIFEST" ]; then
+            sed -i 's/android:label="[^"]*"/android:label="Folio"/' "$MANIFEST"
+            if ! grep -q "android.permission.INTERNET" "$MANIFEST"; then
+              sed -i 's|<application|<uses-permission android:name="android.permission.INTERNET"/>\n    <application|' "$MANIFEST"
+            fi
+          fi
+
+      - name: Install dependencies
+        run: flutter pub get
+
+      - name: Analyze code
+        run: flutter analyze
+
+      - name: Run widget tests
+        run: flutter test
+
+      - name: Build release APK
+        run: flutter build apk --release
+
+      - name: Rename APK
+        run: cp build/app/outputs/flutter-apk/app-release.apk build/app/outputs/flutter-apk/folio-release.apk
+
+      - name: Upload APK artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: folio-release-apk
+          path: build/app/outputs/flutter-apk/folio-release.apk
+          retention-days: 30
