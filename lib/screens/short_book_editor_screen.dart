@@ -152,6 +152,8 @@ class _ShortBookEditorScreenState extends ConsumerState<ShortBookEditorScreen> {
                   Expanded(
                     child: Text(
                       _saveStatus,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
                       style: FolioTypography.caption(size: 12),
                     ),
                   ),
@@ -418,7 +420,7 @@ class _ToolBtn extends StatelessWidget {
         onTap: onTap,
         borderRadius: BorderRadius.circular(8),
         child: SizedBox(
-          width: 40,
+          width: 36,
           height: 44,
           child: Center(
             child: Text(
@@ -457,7 +459,7 @@ class _ToolIconBtn extends StatelessWidget {
         onTap: onTap,
         borderRadius: BorderRadius.circular(8),
         child: SizedBox(
-          width: 40,
+          width: 36,
           height: 44,
           child: Icon(icon, size: 19, color: FolioColors.ink),
         ),

@@ -21,8 +21,8 @@ class NowReadingBar extends ConsumerWidget {
         clipBehavior: Clip.antiAlias,
         child: InkWell(
           onTap: () => context.push('/reader/${book.id}'),
-          child: SizedBox(
-            height: 64,
+          child: ConstrainedBox(
+            constraints: const BoxConstraints(minHeight: 64),
             child: Stack(
               children: [
                 Padding(
@@ -34,13 +34,13 @@ class NowReadingBar extends ConsumerWidget {
                         author: book.author,
                         bg: book.coverBg,
                         fg: book.coverFg,
-                        width: 36,
-                        height: 48,
+                        width: 34,
+                        height: 46,
                       ),
                       const SizedBox(width: 12),
                       Expanded(
                         child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
+                          mainAxisSize: MainAxisSize.min,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
@@ -61,7 +61,8 @@ class NowReadingBar extends ConsumerWidget {
                               overflow: TextOverflow.ellipsis,
                               style: GoogleFonts.inter(
                                 fontSize: 12,
-                                color: FolioColors.plumText.withOpacityCompat(0.70),
+                                color:
+                                    FolioColors.plumText.withOpacityCompat(0.70),
                               ),
                             ),
                           ],
@@ -83,6 +84,7 @@ class NowReadingBar extends ConsumerWidget {
                             alignment: Alignment.center,
                             child: Text(
                               'Resume',
+                              maxLines: 1,
                               style: GoogleFonts.inter(
                                 fontSize: 13,
                                 fontWeight: FontWeight.w600,
@@ -107,7 +109,8 @@ class NowReadingBar extends ConsumerWidget {
                         children: [
                           Positioned.fill(
                             child: ColoredBox(
-                              color: FolioColors.plumText.withOpacityCompat(0.15),
+                              color:
+                                  FolioColors.plumText.withOpacityCompat(0.15),
                             ),
                           ),
                           Container(

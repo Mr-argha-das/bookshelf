@@ -197,48 +197,53 @@ class _BookDetailsScreenState extends ConsumerState<BookDetailsScreen> {
                         horizontal: FolioSpacing.pageX,
                       ),
                       child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
-                          _ActionCircle(
-                            icon: isSaved
-                                ? Icons.bookmark_rounded
-                                : Icons.bookmark_border_rounded,
-                            label: isSaved ? 'Saved' : 'Save',
-                            onTap: () {
-                              ref
-                                  .read(booksProvider.notifier)
-                                  .toggleSaved(book.id);
-                              showFolioToast(
-                                context,
-                                isSaved
-                                    ? 'Removed from Saved'
-                                    : 'Saved to your shelf',
-                              );
-                            },
-                          ),
-                          _ActionCircle(
-                            icon: isPremium
-                                ? Icons.download_done_rounded
-                                : Icons.lock_outline_rounded,
-                            label: isPremium ? 'Download' : 'Offline · Pro',
-                            accentRing: !isPremium,
-                            onTap: () {
-                              if (!isPremium) {
-                                context.push('/premium');
-                              } else {
+                          Expanded(
+                            child: _ActionCircle(
+                              icon: isSaved
+                                  ? Icons.bookmark_rounded
+                                  : Icons.bookmark_border_rounded,
+                              label: isSaved ? 'Saved' : 'Save',
+                              onTap: () {
+                                ref
+                                    .read(booksProvider.notifier)
+                                    .toggleSaved(book.id);
                                 showFolioToast(
                                   context,
-                                  'Downloaded "${book.title}" for offline reading',
+                                  isSaved
+                                      ? 'Removed from Saved'
+                                      : 'Saved to your shelf',
                                 );
-                              }
-                            },
+                              },
+                            ),
                           ),
-                          _ActionCircle(
-                            icon: Icons.share_outlined,
-                            label: 'Share',
-                            onTap: () => showFolioToast(
-                              context,
-                              'Share link copied',
+                          Expanded(
+                            child: _ActionCircle(
+                              icon: isPremium
+                                  ? Icons.download_done_rounded
+                                  : Icons.lock_outline_rounded,
+                              label: isPremium ? 'Download' : 'Offline · Pro',
+                              accentRing: !isPremium,
+                              onTap: () {
+                                if (!isPremium) {
+                                  context.push('/premium');
+                                } else {
+                                  showFolioToast(
+                                    context,
+                                    'Downloaded "${book.title}" for offline reading',
+                                  );
+                                }
+                              },
+                            ),
+                          ),
+                          Expanded(
+                            child: _ActionCircle(
+                              icon: Icons.share_outlined,
+                              label: 'Share',
+                              onTap: () => showFolioToast(
+                                context,
+                                'Share link copied',
+                              ),
                             ),
                           ),
                         ],
@@ -256,10 +261,17 @@ class _BookDetailsScreenState extends ConsumerState<BookDetailsScreen> {
                         children: [
                           Text('About', style: FolioTypography.h2()),
                           const SizedBox(height: 12),
-                          _AboutDropCapText(
+                          DropCapText(
                             text: _expandedAbout
                                 ? '${book.blurb} Written for slow evening reading, every chapter closes on a quiet turning point you can finish in under twenty minutes.'
                                 : book.blurb,
+                            style: FolioTypography.body(
+                              size: 15,
+                              color: FolioColors.ink,
+                              height: 1.55,
+                            ),
+                            dropCapColor: FolioColors.ink,
+                            dropCapLines: 2,
                           ),
                           const SizedBox(height: 6),
                           GestureDetector(
@@ -320,12 +332,16 @@ class _BookDetailsScreenState extends ConsumerState<BookDetailsScreen> {
                               padding: const EdgeInsets.symmetric(vertical: 10),
                               child: Row(
                                 children: [
-                                  Text(
-                                    'See all ${book.chapters} chapters',
-                                    style: GoogleFonts.inter(
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.w600,
-                                      color: FolioColors.accentText,
+                                  Flexible(
+                                    child: Text(
+                                      'See all ${book.chapters} chapters',
+                                      maxLines: 1,
+                                      overflow: TextOverflow.ellipsis,
+                                      style: GoogleFonts.inter(
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.w600,
+                                        color: FolioColors.accentText,
+                                      ),
                                     ),
                                   ),
                                   const SizedBox(width: 4),
@@ -376,7 +392,7 @@ class _BookDetailsScreenState extends ConsumerState<BookDetailsScreen> {
                     ),
                     const SizedBox(height: 14),
                     SizedBox(
-                      height: 224,
+                      height: 234,
                       child: ListView.separated(
                         padding: const EdgeInsets.symmetric(
                           horizontal: FolioSpacing.pageX,
@@ -486,23 +502,30 @@ class _StatColumn extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Text(
-          value,
-          style: GoogleFonts.playfairDisplay(
-            fontSize: 19,
-            fontWeight: FontWeight.w700,
-            color: FolioColors.ink,
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 6),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Text(
+            value,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+            style: GoogleFonts.playfairDisplay(
+              fontSize: 19,
+              fontWeight: FontWeight.w700,
+              color: FolioColors.ink,
+            ),
           ),
-        ),
-        const SizedBox(height: 2),
-        Text(
-          label,
-          style: FolioTypography.caption(size: 11),
-        ),
-      ],
+          const SizedBox(height: 2),
+          Text(
+            label,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+            style: FolioTypography.caption(size: 11),
+          ),
+        ],
+      ),
     );
   }
 }
@@ -548,52 +571,14 @@ class _ActionCircle extends StatelessWidget {
             const SizedBox(height: 6),
             Text(
               label,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              textAlign: TextAlign.center,
               style: FolioTypography.caption(size: 12, color: FolioColors.ink),
             ),
           ],
         ),
       ),
-    );
-  }
-}
-
-class _AboutDropCapText extends StatelessWidget {
-  final String text;
-
-  const _AboutDropCapText({required this.text});
-
-  @override
-  Widget build(BuildContext context) {
-    if (text.isEmpty) return const SizedBox.shrink();
-    final firstChar = text[0];
-    final rest = text.substring(1);
-
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Padding(
-          padding: const EdgeInsets.only(right: 8, top: 2),
-          child: Text(
-            firstChar,
-            style: GoogleFonts.playfairDisplay(
-              fontSize: 44,
-              fontWeight: FontWeight.w700,
-              height: 0.88,
-              color: FolioColors.ink,
-            ),
-          ),
-        ),
-        Expanded(
-          child: Text(
-            rest,
-            style: FolioTypography.body(
-              size: 15,
-              color: FolioColors.ink,
-              height: 1.55,
-            ),
-          ),
-        ),
-      ],
     );
   }
 }

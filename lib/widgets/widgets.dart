@@ -2,6 +2,7 @@ export 'ad_slot.dart';
 export 'avatar.dart';
 export 'book_cover.dart';
 export 'chip.dart';
+export 'drop_cap_text.dart';
 export 'nav_bar.dart';
 export 'now_reading_bar.dart';
 export 'plan_card.dart';

@@ -183,12 +183,16 @@ class _CheckoutSheetState extends ConsumerState<CheckoutSheet> {
                     color: FolioColors.accentText,
                   ),
                   const SizedBox(width: 8),
-                  Text(
-                    'Have a promo code?',
-                    style: GoogleFonts.inter(
-                      fontSize: 13,
-                      fontWeight: FontWeight.w600,
-                      color: FolioColors.accentText,
+                  Flexible(
+                    child: Text(
+                      'Have a promo code?',
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: GoogleFonts.inter(
+                        fontSize: 13,
+                        fontWeight: FontWeight.w600,
+                        color: FolioColors.accentText,
+                      ),
                     ),
                   ),
                 ],

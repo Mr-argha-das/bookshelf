@@ -114,7 +114,7 @@ class _ExploreScreenState extends ConsumerState<ExploreScreen> {
                   ),
                   const SizedBox(height: 14),
                   SizedBox(
-                    height: 230,
+                    height: 244,
                     child: ListView.separated(
                       scrollDirection: Axis.horizontal,
                       itemCount: popular.length,
@@ -134,7 +134,7 @@ class _ExploreScreenState extends ConsumerState<ExploreScreen> {
                   const SectionHeader(title: 'New and rising'),
                   const SizedBox(height: 14),
                   SizedBox(
-                    height: 230,
+                    height: 244,
                     child: ListView.separated(
                       scrollDirection: Axis.horizontal,
                       itemCount: rising.length,
@@ -334,21 +334,35 @@ class _GenreMosaicCard extends StatelessWidget {
             children: [
               LayoutBuilder(
                 builder: (context, constraints) {
-                  final coverW = (constraints.maxWidth - 8) / 2;
-                  final coverH = coverW * 1.35;
-                  return Wrap(
-                    spacing: 8,
-                    runSpacing: 8,
+                  final coverW = ((constraints.maxWidth - 8) / 2).floorToDouble();
+                  final coverH = (coverW * 1.35).floorToDouble();
+                  final list = books.take(4).toList();
+                  Widget cell(int i) {
+                    if (i >= list.length) {
+                      return SizedBox(width: coverW, height: coverH);
+                    }
+                    final b = list[i];
+                    return BookCover(
+                      title: b.title,
+                      author: b.author,
+                      bg: b.coverBg,
+                      fg: b.coverFg,
+                      width: coverW,
+                      height: coverH,
+                    );
+                  }
+
+                  return Column(
                     children: [
-                      for (final book in books.take(4))
-                        BookCover(
-                          title: book.title,
-                          author: book.author,
-                          bg: book.coverBg,
-                          fg: book.coverFg,
-                          width: coverW,
-                          height: coverH,
-                        ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [cell(0), cell(1)],
+                      ),
+                      const SizedBox(height: 8),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [cell(2), cell(3)],
+                      ),
                     ],
                   );
                 },

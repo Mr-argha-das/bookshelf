@@ -79,7 +79,7 @@ class _LibraryScreenState extends ConsumerState<LibraryScreen> {
                     FolioSpacing.pageX,
                     16,
                     FolioSpacing.pageX,
-                    124,
+                    174,
                   ),
                   sliver: SliverList(
                     delegate: SliverChildListDelegate([
@@ -552,8 +552,8 @@ class _ShelfGridView extends StatelessWidget {
     return LayoutBuilder(
       builder: (context, constraints) {
         const gap = 14.0;
-        final itemW = (constraints.maxWidth - gap * 2) / 3;
-        final coverH = itemW * 1.46;
+        final itemW = ((constraints.maxWidth - gap * 2) / 3).floorToDouble();
+        final coverH = (itemW * 1.46).floorToDouble();
 
         return Wrap(
           spacing: gap,
@@ -569,12 +569,18 @@ class _ShelfGridView extends StatelessWidget {
                     children: [
                       AnimatedContainer(
                         duration: const Duration(milliseconds: 200),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(6),
-                          border: book.id == selectedId
-                              ? Border.all(color: FolioColors.accent, width: 2)
-                              : null,
-                        ),
+                        width: itemW,
+                        height: coverH,
+                        foregroundDecoration: book.id == selectedId
+                            ? BoxDecoration(
+                                borderRadius:
+                                    BorderRadius.circular(FolioRadius.cover),
+                                border: Border.all(
+                                  color: FolioColors.accent,
+                                  width: 2,
+                                ),
+                              )
+                            : null,
                         child: BookCover(
                           title: book.title,
                           author: book.author,
@@ -649,68 +655,79 @@ class _ShelfPeekCard extends StatelessWidget {
         border: Border.all(color: FolioColors.border),
         boxShadow: FolioShadows.soft,
       ),
-      child: Row(
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
         children: [
-          BookCover(
-            title: book.title,
-            author: book.author,
-            bg: book.coverBg,
-            fg: book.coverFg,
-            width: 42,
-            height: 60,
-          ),
-          const SizedBox(width: 12),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Text(
-                  book.title,
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                  style: FolioTypography.cardTitle(size: 16),
+          Row(
+            children: [
+              BookCover(
+                title: book.title,
+                author: book.author,
+                bg: book.coverBg,
+                fg: book.coverFg,
+                width: 40,
+                height: 58,
+              ),
+              const SizedBox(width: 12),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text(
+                      book.title,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: FolioTypography.cardTitle(size: 16),
+                    ),
+                    const SizedBox(height: 2),
+                    Text(
+                      book.author,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: FolioTypography.caption(size: 12),
+                    ),
+                    const SizedBox(height: 4),
+                    Text(
+                      _statusLine(),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: FolioTypography.caption(
+                        size: 11,
+                        color: FolioColors.accentText,
+                        weight: FontWeight.w500,
+                      ),
+                    ),
+                  ],
                 ),
-                const SizedBox(height: 2),
-                Text(
-                  book.author,
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                  style: FolioTypography.caption(size: 12),
-                ),
-                const SizedBox(height: 4),
-                Text(
-                  _statusLine(),
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                  style: FolioTypography.caption(
-                    size: 11,
-                    color: FolioColors.accentText,
-                    weight: FontWeight.w500,
-                  ),
-                ),
-              ],
-            ),
+              ),
+            ],
           ),
-          const SizedBox(width: 10),
-          SecondaryButton(
-            label: 'Details',
-            height: 44,
-            radius: 12,
-            fullWidth: false,
-            fontSize: 13,
-            padding: const EdgeInsets.symmetric(horizontal: 12),
-            onPressed: onDetails,
-          ),
-          const SizedBox(width: 8),
-          PrimaryButton(
-            label: 'Read',
-            height: 44,
-            radius: 12,
-            fullWidth: false,
-            fontSize: 13,
-            padding: const EdgeInsets.symmetric(horizontal: 14),
-            onPressed: onRead,
+          const SizedBox(height: 12),
+          Row(
+            children: [
+              Expanded(
+                child: SecondaryButton(
+                  label: 'Details',
+                  height: 44,
+                  radius: 12,
+                  fontSize: 13,
+                  padding: const EdgeInsets.symmetric(horizontal: 12),
+                  onPressed: onDetails,
+                ),
+              ),
+              const SizedBox(width: 10),
+              Expanded(
+                child: PrimaryButton(
+                  label: 'Read',
+                  height: 44,
+                  radius: 12,
+                  fontSize: 13,
+                  padding: const EdgeInsets.symmetric(horizontal: 12),
+                  onPressed: onRead,
+                ),
+              ),
+            ],
           ),
         ],
       ),

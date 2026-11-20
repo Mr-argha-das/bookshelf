@@ -99,7 +99,7 @@ class FamilyPlanScreen extends StatelessWidget {
                           14,
                           8,
                           FolioSpacing.pageX,
-                          52,
+                          28,
                         ),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -117,28 +117,32 @@ class FamilyPlanScreen extends StatelessWidget {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   // 6 overlapping avatars (52px, 3px plum border, -10 overlap)
-                                  SizedBox(
-                                    height: 54,
-                                    width: 52 + 5 * 42.0,
-                                    child: Stack(
-                                      children: [
-                                        for (int i = 0;
-                                            i < _heroAvatars.length;
-                                            i++)
-                                          Positioned(
-                                            left: i * 42.0,
-                                            child: FolioAvatar(
-                                              initials: _heroAvatars[i].$1,
-                                              size: 52,
-                                              backgroundColor:
-                                                  _heroAvatars[i].$2,
-                                              foregroundColor:
-                                                  _heroAvatars[i].$3,
-                                              borderColor: FolioColors.plum,
-                                              borderWidth: 3,
+                                  FittedBox(
+                                    fit: BoxFit.scaleDown,
+                                    alignment: Alignment.centerLeft,
+                                    child: SizedBox(
+                                      height: 54,
+                                      width: 52 + 5 * 42.0,
+                                      child: Stack(
+                                        children: [
+                                          for (int i = 0;
+                                              i < _heroAvatars.length;
+                                              i++)
+                                            Positioned(
+                                              left: i * 42.0,
+                                              child: FolioAvatar(
+                                                initials: _heroAvatars[i].$1,
+                                                size: 52,
+                                                backgroundColor:
+                                                    _heroAvatars[i].$2,
+                                                foregroundColor:
+                                                    _heroAvatars[i].$3,
+                                                borderColor: FolioColors.plum,
+                                                borderWidth: 3,
+                                              ),
                                             ),
-                                          ),
-                                      ],
+                                        ],
+                                      ),
                                     ),
                                   ),
                                   const SizedBox(height: 20),
@@ -174,9 +178,9 @@ class FamilyPlanScreen extends StatelessWidget {
                     ),
                   ),
 
-                  // White sheet overlapping hero by 24
-                  Transform.translate(
-                    offset: const Offset(0, -24),
+                  // White sheet with radius 28 top over plum hero band
+                  ColoredBox(
+                    color: FolioColors.plum,
                     child: Container(
                       width: double.infinity,
                       decoration: const BoxDecoration(
@@ -189,7 +193,7 @@ class FamilyPlanScreen extends StatelessWidget {
                         FolioSpacing.pageX,
                         26,
                         FolioSpacing.pageX,
-                        16,
+                        24,
                       ),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,

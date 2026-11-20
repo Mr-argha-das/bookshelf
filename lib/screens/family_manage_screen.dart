@@ -336,31 +336,67 @@ class FamilyManageScreen extends ConsumerWidget {
                 ),
               ),
               const SizedBox(height: 12),
-              Row(
-                children: [
-                  Expanded(
-                    child: SecondaryButton(
-                      label: 'Share by WhatsApp',
-                      height: 46,
-                      fontSize: 13,
-                      padding: const EdgeInsets.symmetric(horizontal: 10),
-                      onPressed: () =>
-                          showFolioToast(context, 'Opening WhatsApp invite…'),
-                    ),
-                  ),
-                  const SizedBox(width: 10),
-                  Expanded(
-                    child: SecondaryButton(
-                      label: 'Add by email',
-                      height: 46,
-                      fontSize: 13,
-                      padding: const EdgeInsets.symmetric(horizontal: 10),
-                      onPressed: left > 0
-                          ? () => _showAddByEmailDialog(context, ref)
-                          : () => showFolioToast(context, 'All 6 seats used'),
-                    ),
-                  ),
-                ],
+              LayoutBuilder(
+                builder: (context, constraints) {
+                  if (constraints.maxWidth < 330) {
+                    return Column(
+                      children: [
+                        SecondaryButton(
+                          label: 'Share by WhatsApp',
+                          height: 46,
+                          fontSize: 13,
+                          onPressed: () => showFolioToast(
+                            context,
+                            'Opening WhatsApp invite…',
+                          ),
+                        ),
+                        const SizedBox(height: 10),
+                        SecondaryButton(
+                          label: 'Add by email',
+                          height: 46,
+                          fontSize: 13,
+                          onPressed: left > 0
+                              ? () => _showAddByEmailDialog(context, ref)
+                              : () => showFolioToast(
+                                    context,
+                                    'All 6 seats used',
+                                  ),
+                        ),
+                      ],
+                    );
+                  }
+                  return Row(
+                    children: [
+                      Expanded(
+                        child: SecondaryButton(
+                          label: 'Share by WhatsApp',
+                          height: 46,
+                          fontSize: 13,
+                          padding: const EdgeInsets.symmetric(horizontal: 10),
+                          onPressed: () => showFolioToast(
+                            context,
+                            'Opening WhatsApp invite…',
+                          ),
+                        ),
+                      ),
+                      const SizedBox(width: 10),
+                      Expanded(
+                        child: SecondaryButton(
+                          label: 'Add by email',
+                          height: 46,
+                          fontSize: 13,
+                          padding: const EdgeInsets.symmetric(horizontal: 10),
+                          onPressed: left > 0
+                              ? () => _showAddByEmailDialog(context, ref)
+                              : () => showFolioToast(
+                                    context,
+                                    'All 6 seats used',
+                                  ),
+                        ),
+                      ),
+                    ],
+                  );
+                },
               ),
               const SizedBox(height: 10),
               SizedBox(

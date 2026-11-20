@@ -37,7 +37,10 @@ class BookCover extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    // Keep typography inside fixed-size covers immune to system font scaling
+    // so cover art never clips or overflows at any device font size.
+    final mq = MediaQuery.maybeOf(context);
+    final cover = Container(
       width: width,
       height: height,
       decoration: BoxDecoration(
@@ -63,22 +66,29 @@ class BookCover extends StatelessWidget {
         ],
       ),
     );
+
+    if (mq == null) return cover;
+    return MediaQuery(
+      data: mq.copyWith(textScaler: TextScaler.noScaling),
+      child: cover,
+    );
   }
 
   Widget _buildFrontContent() {
-    final isTiny = width <= 52;
-    final padX = (width * 0.11).clamp(4.0, 16.0);
-    final padY = (height * 0.08).clamp(4.0, 16.0);
-    final circleDiameter = width * 0.45;
-    final titleSize = (width * 0.145).clamp(7.0, 22.0);
-    final authorSize = (titleSize * 0.55).clamp(5.5, 11.0);
+    final isTiny = width <= 54;
+    final isSmall = width <= 86;
+    final padX = (width * 0.10).clamp(4.0, 14.0);
+    final padY = (height * 0.075).clamp(4.0, 14.0);
+    final circleDiameter = (width * (isSmall ? 0.36 : 0.42)).clamp(10.0, 64.0);
+    final titleSize = (width * 0.135).clamp(6.5, 20.0);
+    final authorSize = (titleSize * 0.55).clamp(5.5, 10.0);
 
     return Padding(
       padding: EdgeInsets.fromLTRB(padX + 2, padY, padX, padY),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          SizedBox(height: isTiny ? 1 : height * 0.03),
+          SizedBox(height: isTiny ? 1 : height * 0.025),
           Container(
             width: circleDiameter,
             height: circleDiameter,
@@ -90,6 +100,7 @@ class BookCover extends StatelessWidget {
               ),
             ),
           ),
+          const SizedBox(height: 3),
           Expanded(
             child: Center(
               child: Text(
@@ -106,7 +117,8 @@ class BookCover extends StatelessWidget {
               ),
             ),
           ),
-          if (!isTiny && author.isNotEmpty)
+          if (!isTiny && author.isNotEmpty) ...[
+            const SizedBox(height: 2),
             Text(
               author.toUpperCase(),
               textAlign: TextAlign.center,
@@ -115,24 +127,25 @@ class BookCover extends StatelessWidget {
               style: GoogleFonts.inter(
                 fontSize: authorSize,
                 fontWeight: FontWeight.w600,
-                letterSpacing: authorSize * 0.14,
+                letterSpacing: authorSize * 0.12,
                 color: fg.withOpacityCompat(0.78),
               ),
             ),
+          ],
         ],
       ),
     );
   }
 
   Widget _buildSpineContent() {
-    final fontSize = (width * 0.34).clamp(10.0, 14.0);
+    final fontSize = (width * 0.32).clamp(9.5, 13.5);
     return Padding(
       padding: const EdgeInsets.fromLTRB(5, 10, 4, 10),
       child: Column(
         children: [
           Container(
-            width: (width * 0.42).clamp(10.0, 16.0),
-            height: (width * 0.42).clamp(10.0, 16.0),
+            width: (width * 0.40).clamp(10.0, 15.0),
+            height: (width * 0.40).clamp(10.0, 15.0),
             decoration: BoxDecoration(
               shape: BoxShape.circle,
               border: Border.all(

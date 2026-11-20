@@ -66,7 +66,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                         ),
                       ),
                     ),
-                    const SizedBox(height: 24),
+                    const SizedBox(height: 16),
                     // 3 overlapping typographic covers rotated -6, 0, +6 deg
                     GestureDetector(
                       onHorizontalDragEnd: (details) {
@@ -78,54 +78,62 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                         }
                       },
                       child: SizedBox(
-                        height: 280,
-                        child: Stack(
-                          alignment: Alignment.center,
-                          children: [
-                            Transform.translate(
-                              offset: const Offset(-68, 12),
-                              child: Transform.rotate(
-                                angle: -6 * math.pi / 180,
-                                child: const BookCover(
-                                  title: 'Paper Moons',
-                                  author: 'Arjun Sen',
-                                  bg: FolioColors.coverPlum,
-                                  fg: FolioColors.plumText,
-                                  width: 132,
-                                  height: 196,
+                        width: double.infinity,
+                        height: 256,
+                        child: FittedBox(
+                          fit: BoxFit.scaleDown,
+                          child: SizedBox(
+                            width: 310,
+                            height: 256,
+                            child: Stack(
+                              alignment: Alignment.center,
+                              children: [
+                                Transform.translate(
+                                  offset: const Offset(-66, 10),
+                                  child: Transform.rotate(
+                                    angle: -6 * math.pi / 180,
+                                    child: const BookCover(
+                                      title: 'Paper Moons',
+                                      author: 'Arjun Sen',
+                                      bg: FolioColors.coverPlum,
+                                      fg: FolioColors.plumText,
+                                      width: 128,
+                                      height: 190,
+                                      elevated: true,
+                                    ),
+                                  ),
+                                ),
+                                Transform.translate(
+                                  offset: const Offset(66, 12),
+                                  child: Transform.rotate(
+                                    angle: 6 * math.pi / 180,
+                                    child: const BookCover(
+                                      title: 'Glass Harbour',
+                                      author: 'Julian Vance',
+                                      bg: FolioColors.coverForest,
+                                      fg: FolioColors.plumText,
+                                      width: 128,
+                                      height: 190,
+                                      elevated: true,
+                                    ),
+                                  ),
+                                ),
+                                const BookCover(
+                                  title: 'The Salt Orchard',
+                                  author: 'Meera Kulkarni',
+                                  bg: FolioColors.coverCream,
+                                  fg: FolioColors.coverInkWarm,
+                                  width: 144,
+                                  height: 214,
                                   elevated: true,
                                 ),
-                              ),
+                              ],
                             ),
-                            Transform.translate(
-                              offset: const Offset(68, 14),
-                              child: Transform.rotate(
-                                angle: 6 * math.pi / 180,
-                                child: const BookCover(
-                                  title: 'Glass Harbour',
-                                  author: 'Julian Vance',
-                                  bg: FolioColors.coverForest,
-                                  fg: FolioColors.plumText,
-                                  width: 132,
-                                  height: 196,
-                                  elevated: true,
-                                ),
-                              ),
-                            ),
-                            const BookCover(
-                              title: 'The Salt Orchard',
-                              author: 'Meera Kulkarni',
-                              bg: FolioColors.coverCream,
-                              fg: FolioColors.coverInkWarm,
-                              width: 148,
-                              height: 220,
-                              elevated: true,
-                            ),
-                          ],
+                          ),
                         ),
                       ),
                     ),
-                    const SizedBox(height: 28),
+                    const SizedBox(height: 20),
                     // Text + dots + actions
                     Column(
                       children: [

@@ -56,10 +56,17 @@ class AccountScreen extends ConsumerWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(user.name, style: FolioTypography.h1(size: 24)),
+                        Text(
+                          user.name,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: FolioTypography.h1(size: 24),
+                        ),
                         const SizedBox(height: 2),
                         Text(
                           user.handle,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
                           style: FolioTypography.caption(size: 14),
                         ),
                       ],
@@ -264,9 +271,14 @@ class _AccountRow extends StatelessWidget {
               ),
             ),
             if (value.isNotEmpty) ...[
-              Text(
-                value,
-                style: FolioTypography.caption(size: 13),
+              const SizedBox(width: 8),
+              Flexible(
+                child: Text(
+                  value,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: FolioTypography.caption(size: 13),
+                ),
               ),
               const SizedBox(width: 6),
             ],

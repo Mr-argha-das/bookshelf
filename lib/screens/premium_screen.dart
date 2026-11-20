@@ -54,7 +54,7 @@ class PremiumScreen extends ConsumerWidget {
                           14,
                           8,
                           FolioSpacing.pageX,
-                          52,
+                          28,
                         ),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -127,9 +127,9 @@ class PremiumScreen extends ConsumerWidget {
                     ),
                   ),
 
-                  // White sheet overlapping hero by 24 with radius 28 top
-                  Transform.translate(
-                    offset: const Offset(0, -24),
+                  // White sheet with radius 28 top over plum hero band
+                  ColoredBox(
+                    color: FolioColors.plum,
                     child: Container(
                       width: double.infinity,
                       decoration: const BoxDecoration(
@@ -142,7 +142,7 @@ class PremiumScreen extends ConsumerWidget {
                         FolioSpacing.pageX,
                         26,
                         FolioSpacing.pageX,
-                        16,
+                        24,
                       ),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -209,12 +209,16 @@ class PremiumScreen extends ConsumerWidget {
                                 child: Row(
                                   mainAxisSize: MainAxisSize.min,
                                   children: [
-                                    Text(
-                                      'See how Family works',
-                                      style: GoogleFonts.inter(
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.w600,
-                                        color: FolioColors.accentText,
+                                    Flexible(
+                                      child: Text(
+                                        'See how Family works',
+                                        maxLines: 1,
+                                        overflow: TextOverflow.ellipsis,
+                                        style: GoogleFonts.inter(
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.w600,
+                                          color: FolioColors.accentText,
+                                        ),
                                       ),
                                     ),
                                     const SizedBox(width: 4),

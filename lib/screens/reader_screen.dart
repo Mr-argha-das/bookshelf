@@ -118,10 +118,11 @@ class _ReaderScreenState extends ConsumerState<ReaderScreen> {
                     const SizedBox(height: 26),
 
                     // First paragraph with 3-line Playfair drop cap (accent-free ink)
-                    _DropCapParagraph(
+                    DropCapText(
                       text: kChapter12Paragraphs.first,
                       style: readingStyle,
-                      ink: ink,
+                      dropCapColor: ink,
+                      dropCapLines: 3,
                     ),
                     const SizedBox(height: 18),
 
@@ -391,51 +392,6 @@ class _ReaderScreenState extends ConsumerState<ReaderScreen> {
           ],
         ),
       ),
-    );
-  }
-}
-
-class _DropCapParagraph extends StatelessWidget {
-  final String text;
-  final TextStyle style;
-  final Color ink;
-
-  const _DropCapParagraph({
-    required this.text,
-    required this.style,
-    required this.ink,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    if (text.isEmpty) return const SizedBox.shrink();
-    final firstLetter = text[0];
-    final remainder = text.substring(1);
-    final dropCapSize = (style.fontSize ?? 18) * 3.1;
-
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Padding(
-          padding: const EdgeInsets.only(right: 10, top: 4),
-          child: Text(
-            firstLetter,
-            style: GoogleFonts.playfairDisplay(
-              fontSize: dropCapSize,
-              fontWeight: FontWeight.w700,
-              height: 0.86,
-              color: ink,
-            ),
-          ),
-        ),
-        Expanded(
-          child: Text(
-            remainder,
-            textAlign: TextAlign.left,
-            style: style,
-          ),
-        ),
-      ],
     );
   }
 }

@@ -65,11 +65,16 @@ class HomeScreen extends ConsumerWidget {
                         Row(
                           children: [
                             Expanded(
-                              child: Text(
-                                'Good evening, Priya',
-                                style: FolioTypography.h1(
-                                  size: 24,
-                                  color: ink,
+                              child: FittedBox(
+                                fit: BoxFit.scaleDown,
+                                alignment: Alignment.centerLeft,
+                                child: Text(
+                                  'Good evening, Priya',
+                                  maxLines: 1,
+                                  style: FolioTypography.h1(
+                                    size: 24,
+                                    color: ink,
+                                  ),
                                 ),
                               ),
                             ),
@@ -221,6 +226,8 @@ class HomeScreen extends ConsumerWidget {
                                     const SizedBox(height: 4),
                                     Text(
                                       'Chapter ${salt.currentChapter} · ${salt.minutesLeft} min left',
+                                      maxLines: 1,
+                                      overflow: TextOverflow.ellipsis,
                                       style: FolioTypography.caption(
                                         size: 13,
                                         color: FolioColors.plumText
@@ -333,109 +340,117 @@ class HomeScreen extends ConsumerWidget {
                             borderRadius: BorderRadius.circular(FolioRadius.cardLg),
                             border: Border.all(color: border),
                           ),
-                          child: Row(
+                          child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              GestureDetector(
-                                onTap: () =>
-                                    context.push('/book/${bookOfWeek.id}'),
-                                child: BookCover(
-                                  title: bookOfWeek.title,
-                                  author: bookOfWeek.author,
-                                  bg: bookOfWeek.coverBg,
-                                  fg: bookOfWeek.coverFg,
-                                  width: 120,
-                                  height: 176,
-                                ),
-                              ),
-                              const SizedBox(width: 16),
-                              Expanded(
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      bookOfWeek.title,
-                                      maxLines: 2,
-                                      overflow: TextOverflow.ellipsis,
-                                      style: FolioTypography.cardTitle(
-                                        size: 20,
-                                        color: ink,
-                                      ),
+                              Row(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  GestureDetector(
+                                    onTap: () =>
+                                        context.push('/book/${bookOfWeek.id}'),
+                                    child: BookCover(
+                                      title: bookOfWeek.title,
+                                      author: bookOfWeek.author,
+                                      bg: bookOfWeek.coverBg,
+                                      fg: bookOfWeek.coverFg,
+                                      width: 108,
+                                      height: 158,
                                     ),
-                                    const SizedBox(height: 4),
-                                    Text(
-                                      '${bookOfWeek.author} · ★ ${bookOfWeek.rating}',
-                                      style: FolioTypography.caption(
-                                        size: 13,
-                                        color: secondary,
-                                      ),
-                                    ),
-                                    const SizedBox(height: 10),
-                                    Text(
-                                      bookOfWeek.blurb,
-                                      maxLines: 3,
-                                      overflow: TextOverflow.ellipsis,
-                                      style: FolioTypography.body(
-                                        size: 13,
-                                        color: secondary,
-                                        height: 1.45,
-                                      ),
-                                    ),
-                                    const SizedBox(height: 14),
-                                    Row(
+                                  ),
+                                  const SizedBox(width: 16),
+                                  Expanded(
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
                                       children: [
-                                        Expanded(
-                                          child: PrimaryButton(
-                                            label: 'Read',
-                                            height: 44,
-                                            radius: 12,
-                                            fontSize: 13,
-                                            backgroundColor: isDark
-                                                ? FolioColors.darkInk
-                                                : FolioColors.ink,
-                                            foregroundColor: isDark
-                                                ? FolioColors.darkBg
-                                                : Colors.white,
-                                            padding: const EdgeInsets.symmetric(
-                                              horizontal: 10,
-                                            ),
-                                            onPressed: () => context.push(
-                                              '/reader/${bookOfWeek.id}',
-                                            ),
+                                        Text(
+                                          bookOfWeek.title,
+                                          maxLines: 2,
+                                          overflow: TextOverflow.ellipsis,
+                                          style: FolioTypography.cardTitle(
+                                            size: 20,
+                                            color: ink,
                                           ),
                                         ),
-                                        const SizedBox(width: 8),
-                                        Expanded(
-                                          child: SecondaryButton(
-                                            label: bookOfWeek.status ==
-                                                    BookStatus.saved
-                                                ? 'Saved'
-                                                : 'Save',
-                                            height: 44,
-                                            radius: 12,
-                                            fontSize: 13,
-                                            foregroundColor: ink,
-                                            borderColor: isDark
-                                                ? FolioColors.darkBorder
-                                                : FolioColors.outline,
-                                            padding: const EdgeInsets.symmetric(
-                                              horizontal: 10,
-                                            ),
-                                            onPressed: () {
-                                              ref
-                                                  .read(booksProvider.notifier)
-                                                  .toggleSaved(bookOfWeek.id);
-                                              showFolioToast(
-                                                context,
-                                                'Updated shelf for ${bookOfWeek.title}',
-                                              );
-                                            },
+                                        const SizedBox(height: 4),
+                                        Text(
+                                          '${bookOfWeek.author} · ★ ${bookOfWeek.rating}',
+                                          maxLines: 1,
+                                          overflow: TextOverflow.ellipsis,
+                                          style: FolioTypography.caption(
+                                            size: 13,
+                                            color: secondary,
+                                          ),
+                                        ),
+                                        const SizedBox(height: 10),
+                                        Text(
+                                          bookOfWeek.blurb,
+                                          maxLines: 4,
+                                          overflow: TextOverflow.ellipsis,
+                                          style: FolioTypography.body(
+                                            size: 13,
+                                            color: secondary,
+                                            height: 1.45,
                                           ),
                                         ),
                                       ],
                                     ),
-                                  ],
-                                ),
+                                  ),
+                                ],
+                              ),
+                              const SizedBox(height: 14),
+                              Row(
+                                children: [
+                                  Expanded(
+                                    child: PrimaryButton(
+                                      label: 'Read',
+                                      height: 44,
+                                      radius: 12,
+                                      fontSize: 14,
+                                      backgroundColor: isDark
+                                          ? FolioColors.darkInk
+                                          : FolioColors.ink,
+                                      foregroundColor: isDark
+                                          ? FolioColors.darkBg
+                                          : Colors.white,
+                                      padding: const EdgeInsets.symmetric(
+                                        horizontal: 12,
+                                      ),
+                                      onPressed: () => context.push(
+                                        '/reader/${bookOfWeek.id}',
+                                      ),
+                                    ),
+                                  ),
+                                  const SizedBox(width: 10),
+                                  Expanded(
+                                    child: SecondaryButton(
+                                      label: bookOfWeek.status ==
+                                              BookStatus.saved
+                                          ? 'Saved'
+                                          : 'Save',
+                                      height: 44,
+                                      radius: 12,
+                                      fontSize: 14,
+                                      foregroundColor: ink,
+                                      borderColor: isDark
+                                          ? FolioColors.darkBorder
+                                          : FolioColors.outline,
+                                      padding: const EdgeInsets.symmetric(
+                                        horizontal: 12,
+                                      ),
+                                      onPressed: () {
+                                        ref
+                                            .read(booksProvider.notifier)
+                                            .toggleSaved(bookOfWeek.id);
+                                        showFolioToast(
+                                          context,
+                                          'Updated shelf for ${bookOfWeek.title}',
+                                        );
+                                      },
+                                    ),
+                                  ),
+                                ],
                               ),
                             ],
                           ),
@@ -451,7 +466,7 @@ class HomeScreen extends ConsumerWidget {
                         ),
                         const SizedBox(height: 14),
                         SizedBox(
-                          height: 232,
+                          height: 244,
                           child: ListView.separated(
                             scrollDirection: Axis.horizontal,
                             itemCount: picked.length,
@@ -500,7 +515,7 @@ class HomeScreen extends ConsumerWidget {
                         ),
                         const SizedBox(height: 14),
                         SizedBox(
-                          height: 196,
+                          height: 146,
                           child: ListView.separated(
                             scrollDirection: Axis.horizontal,
                             itemCount: finishTonight.length,

@@ -71,22 +71,35 @@ class PlanCard extends StatelessWidget {
                                 Expanded(
                                   child: Text(
                                     title,
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis,
                                     style: FolioTypography.cardTitle(size: 19),
                                   ),
                                 ),
                                 const SizedBox(width: 8),
-                                Text(
-                                  price,
-                                  style: GoogleFonts.playfairDisplay(
-                                    fontSize: 20,
-                                    fontWeight: FontWeight.w700,
-                                    color: FolioColors.ink,
+                                Flexible(
+                                  child: Text.rich(
+                                    TextSpan(
+                                      children: [
+                                        TextSpan(
+                                          text: price,
+                                          style: GoogleFonts.playfairDisplay(
+                                            fontSize: 20,
+                                            fontWeight: FontWeight.w700,
+                                            color: FolioColors.ink,
+                                          ),
+                                        ),
+                                        TextSpan(
+                                          text: ' $priceSuffix',
+                                          style:
+                                              FolioTypography.caption(size: 12),
+                                        ),
+                                      ],
+                                    ),
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis,
+                                    textAlign: TextAlign.right,
                                   ),
-                                ),
-                                const SizedBox(width: 3),
-                                Text(
-                                  priceSuffix,
-                                  style: FolioTypography.caption(size: 12),
                                 ),
                               ],
                             ),
@@ -111,21 +124,33 @@ class PlanCard extends StatelessWidget {
             Positioned(
               top: 0,
               left: 16,
-              child: Container(
-                height: 24,
-                padding: const EdgeInsets.symmetric(horizontal: 10),
-                decoration: BoxDecoration(
-                  color: FolioColors.ink,
-                  borderRadius: BorderRadius.circular(FolioRadius.chip),
-                ),
-                alignment: Alignment.center,
-                child: Text(
-                  badge!,
-                  style: GoogleFonts.inter(
-                    fontSize: 10,
-                    fontWeight: FontWeight.w600,
-                    letterSpacing: 0.8,
-                    color: Colors.white,
+              right: 16,
+              child: Align(
+                alignment: Alignment.centerLeft,
+                child: Container(
+                  height: 24,
+                  padding: const EdgeInsets.symmetric(horizontal: 10),
+                  decoration: BoxDecoration(
+                    color: FolioColors.ink,
+                    borderRadius: BorderRadius.circular(FolioRadius.chip),
+                  ),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Flexible(
+                        child: Text(
+                          badge!,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: GoogleFonts.inter(
+                            fontSize: 10,
+                            fontWeight: FontWeight.w600,
+                            letterSpacing: 0.7,
+                            color: Colors.white,
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                 ),
               ),
