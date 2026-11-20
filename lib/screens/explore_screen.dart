@@ -69,11 +69,15 @@ class _ExploreScreenState extends ConsumerState<ExploreScreen> {
                               color: FolioColors.mutedIcon,
                             ),
                             const SizedBox(width: 10),
-                            Text(
-                              'Search books, authors, genres',
-                              style: FolioTypography.body(
-                                size: 15,
-                                color: FolioColors.mutedIcon,
+                            Expanded(
+                              child: Text(
+                                'Search books, authors, genres',
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                                style: FolioTypography.body(
+                                  size: 15,
+                                  color: FolioColors.mutedIcon,
+                                ),
                               ),
                             ),
                           ],

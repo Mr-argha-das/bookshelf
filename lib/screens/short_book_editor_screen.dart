@@ -374,10 +374,11 @@ class _ShortBookEditorScreenState extends ConsumerState<ShortBookEditorScreen> {
                     semantics: 'Undo',
                     onTap: _undo,
                   ),
-                  const Spacer(),
-                  Flexible(
+                  const SizedBox(width: 8),
+                  Expanded(
                     child: Text(
                       '$_wordCount words · $_readMinutes min read',
+                      textAlign: TextAlign.right,
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                       style: FolioTypography.caption(size: 12),

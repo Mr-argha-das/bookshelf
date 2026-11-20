@@ -236,18 +236,22 @@ class _SearchBookRow extends StatelessWidget {
                         ),
                       ),
                       const SizedBox(width: 8),
-                      Container(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 8,
-                          vertical: 2,
-                        ),
-                        decoration: BoxDecoration(
-                          color: FolioColors.surface,
-                          borderRadius: BorderRadius.circular(999),
-                        ),
-                        child: Text(
-                          book.genre,
-                          style: FolioTypography.caption(size: 11),
+                      Flexible(
+                        child: Container(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 8,
+                            vertical: 2,
+                          ),
+                          decoration: BoxDecoration(
+                            color: FolioColors.surface,
+                            borderRadius: BorderRadius.circular(999),
+                          ),
+                          child: Text(
+                            book.genre,
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                            style: FolioTypography.caption(size: 11),
+                          ),
                         ),
                       ),
                     ],

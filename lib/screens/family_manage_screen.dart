@@ -559,7 +559,15 @@ class _PlanDetailRow extends StatelessWidget {
                 style: FolioTypography.body(size: 15, weight: FontWeight.w500),
               ),
             ),
-            Text(value, style: FolioTypography.caption(size: 13)),
+            const SizedBox(width: 8),
+            Flexible(
+              child: Text(
+                value,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                style: FolioTypography.caption(size: 13),
+              ),
+            ),
             const SizedBox(width: 6),
             const Icon(
               Icons.chevron_right_rounded,

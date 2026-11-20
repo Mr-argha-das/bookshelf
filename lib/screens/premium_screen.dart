@@ -308,24 +308,33 @@ class PremiumScreen extends ConsumerWidget {
                           const SizedBox(height: 24),
 
                           // Footer links: Terms, Privacy, Restore purchase
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              _FooterLink('Terms', () {
-                                showFolioToast(context, 'Folio Terms of Service');
-                              }),
-                              const Text(' · '),
-                              _FooterLink('Privacy', () {
-                                showFolioToast(context, 'Folio Privacy Policy');
-                              }),
-                              const Text(' · '),
-                              _FooterLink('Restore purchase', () {
-                                showFolioToast(
-                                  context,
-                                  'Checked for existing purchases',
-                                );
-                              }),
-                            ],
+                          Center(
+                            child: Wrap(
+                              alignment: WrapAlignment.center,
+                              crossAxisAlignment: WrapCrossAlignment.center,
+                              children: [
+                                _FooterLink('Terms', () {
+                                  showFolioToast(
+                                    context,
+                                    'Folio Terms of Service',
+                                  );
+                                }),
+                                const Text(' · '),
+                                _FooterLink('Privacy', () {
+                                  showFolioToast(
+                                    context,
+                                    'Folio Privacy Policy',
+                                  );
+                                }),
+                                const Text(' · '),
+                                _FooterLink('Restore purchase', () {
+                                  showFolioToast(
+                                    context,
+                                    'Checked for existing purchases',
+                                  );
+                                }),
+                              ],
+                            ),
                           ),
                         ],
                       ),

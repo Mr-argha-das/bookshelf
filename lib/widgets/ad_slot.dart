@@ -39,16 +39,20 @@ class AdSlot extends ConsumerWidget {
           children: [
             Row(
               children: [
-                Text(
-                  'ADVERTISEMENT',
-                  style: GoogleFonts.inter(
-                    fontSize: 9,
-                    fontWeight: FontWeight.w600,
-                    letterSpacing: 9 * 0.08,
-                    color: FolioColors.secondary,
+                Expanded(
+                  child: Text(
+                    'ADVERTISEMENT',
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: GoogleFonts.inter(
+                      fontSize: 9,
+                      fontWeight: FontWeight.w600,
+                      letterSpacing: 9 * 0.08,
+                      color: FolioColors.secondary,
+                    ),
                   ),
                 ),
-                const Spacer(),
+                const SizedBox(width: 8),
                 Semantics(
                   button: true,
                   label: 'Remove ads',

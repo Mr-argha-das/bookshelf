@@ -154,46 +154,49 @@ class _ReaderScreenState extends ConsumerState<ReaderScreen> {
                     const SizedBox(height: 20),
 
                     // Reactions row
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        _ReaderReactionChip(
-                          icon: _likedChapter
-                              ? Icons.favorite_rounded
-                              : Icons.favorite_border_rounded,
-                          label: _likedChapter ? 'Loved (49)' : 'Love (48)',
-                          active: _likedChapter,
-                          surface: surface,
-                          ink: ink,
-                          border: border,
-                          onTap: () =>
-                              setState(() => _likedChapter = !_likedChapter),
-                        ),
-                        const SizedBox(width: 10),
-                        _ReaderReactionChip(
-                          icon: _bookmarkedChapter
-                              ? Icons.bookmark_rounded
-                              : Icons.bookmark_border_rounded,
-                          label: _bookmarkedChapter ? 'Saved' : 'Bookmark',
-                          active: _bookmarkedChapter,
-                          surface: surface,
-                          ink: ink,
-                          border: border,
-                          onTap: () => setState(
-                            () => _bookmarkedChapter = !_bookmarkedChapter,
+                    Center(
+                      child: Wrap(
+                        alignment: WrapAlignment.center,
+                        spacing: 10,
+                        runSpacing: 10,
+                        children: [
+                          _ReaderReactionChip(
+                            icon: _likedChapter
+                                ? Icons.favorite_rounded
+                                : Icons.favorite_border_rounded,
+                            label: _likedChapter ? 'Loved (49)' : 'Love (48)',
+                            active: _likedChapter,
+                            surface: surface,
+                            ink: ink,
+                            border: border,
+                            onTap: () =>
+                                setState(() => _likedChapter = !_likedChapter),
                           ),
-                        ),
-                        const SizedBox(width: 10),
-                        _ReaderReactionChip(
-                          icon: Icons.chat_bubble_outline_rounded,
-                          label: 'Reviews',
-                          active: false,
-                          surface: surface,
-                          ink: ink,
-                          border: border,
-                          onTap: () => context.push('/book/${book.id}/reviews'),
-                        ),
-                      ],
+                          _ReaderReactionChip(
+                            icon: _bookmarkedChapter
+                                ? Icons.bookmark_rounded
+                                : Icons.bookmark_border_rounded,
+                            label: _bookmarkedChapter ? 'Saved' : 'Bookmark',
+                            active: _bookmarkedChapter,
+                            surface: surface,
+                            ink: ink,
+                            border: border,
+                            onTap: () => setState(
+                              () => _bookmarkedChapter = !_bookmarkedChapter,
+                            ),
+                          ),
+                          _ReaderReactionChip(
+                            icon: Icons.chat_bubble_outline_rounded,
+                            label: 'Reviews',
+                            active: false,
+                            surface: surface,
+                            ink: ink,
+                            border: border,
+                            onTap: () =>
+                                context.push('/book/${book.id}/reviews'),
+                          ),
+                        ],
+                      ),
                     ),
                     const SizedBox(height: 26),
 
@@ -353,14 +356,18 @@ class _ReaderScreenState extends ConsumerState<ReaderScreen> {
                   children: [
                     Row(
                       children: [
-                        Text(
-                          'Chapter $chapterNum of $totalChapters · $pct%',
-                          style: FolioTypography.caption(
-                            size: 12,
-                            color: secondary,
+                        Expanded(
+                          child: Text(
+                            'Chapter $chapterNum of $totalChapters · $pct%',
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                            style: FolioTypography.caption(
+                              size: 12,
+                              color: secondary,
+                            ),
                           ),
                         ),
-                        const Spacer(),
+                        const SizedBox(width: 10),
                         Text(
                           '${book.minutesLeft} min left',
                           style: FolioTypography.caption(
