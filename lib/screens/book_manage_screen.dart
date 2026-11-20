@@ -172,6 +172,8 @@ class _BookManageScreenState extends ConsumerState<BookManageScreen> {
                           else
                             Text(
                               bookTitle,
+                              maxLines: 2,
+                              overflow: TextOverflow.ellipsis,
                               style: FolioTypography.cardTitle(size: 20),
                             ),
                           const SizedBox(height: 6),
@@ -179,6 +181,8 @@ class _BookManageScreenState extends ConsumerState<BookManageScreen> {
                             widget.isNewBook
                                 ? '${chapters.length} chapters · 0 reads'
                                 : '${chapters.length} chapters · 3.2k reads',
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
                             style: FolioTypography.caption(size: 13),
                           ),
                         ],
@@ -195,8 +199,9 @@ class _BookManageScreenState extends ConsumerState<BookManageScreen> {
               ),
               child: Row(
                 children: [
-                  Text('CHAPTERS', style: FolioTypography.label()),
-                  const Spacer(),
+                  Expanded(
+                    child: Text('CHAPTERS', style: FolioTypography.label()),
+                  ),
                   Text(
                     'Drag to reorder',
                     style: FolioTypography.caption(size: 12),
@@ -209,8 +214,13 @@ class _BookManageScreenState extends ConsumerState<BookManageScreen> {
             // ReorderableListView
             Expanded(
               child: chapters.isEmpty
-                  ? Padding(
-                      padding: const EdgeInsets.all(FolioSpacing.pageX),
+                  ? SingleChildScrollView(
+                      padding: const EdgeInsets.fromLTRB(
+                        FolioSpacing.pageX,
+                        8,
+                        FolioSpacing.pageX,
+                        20,
+                      ),
                       child: FolioEmptyShelf(
                         title: 'No chapters yet',
                         subtitle:
