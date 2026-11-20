@@ -383,7 +383,7 @@ class _BookDetailsScreenState extends ConsumerState<BookDetailsScreen> {
                         ),
                         scrollDirection: Axis.horizontal,
                         itemCount: related.length,
-                        separatorBuilder: (_, __) => const SizedBox(width: 14),
+                        separatorBuilder: (context, index) => const SizedBox(width: 14),
                         itemBuilder: (context, index) {
                           final item = related[index];
                           return GestureDetector(

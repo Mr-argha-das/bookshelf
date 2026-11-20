@@ -20,7 +20,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Set up Java 17
-        uses: actions/setup-java@v4
+        uses: actions/setup-java@v5
         with:
           distribution: 'temurin'
           java-version: '17'
@@ -37,7 +37,6 @@ jobs:
             flutter create --platforms=android --project-name folio --org com.folio.app --no-pub .
             git checkout -- lib/ test/ pubspec.yaml analysis_options.yaml README.md
           fi
-          # Set app display name to Folio and ensure INTERNET permission for Google Fonts
           MANIFEST="android/app/src/main/AndroidManifest.xml"
           if [ -f "$MANIFEST" ]; then
             sed -i 's/android:label="[^"]*"/android:label="Folio"/' "$MANIFEST"
@@ -50,10 +49,30 @@ jobs:
         run: flutter pub get
 
       - name: Analyze code
-        run: flutter analyze
+        run: |
+          set +e
+          OUT=$(flutter analyze 2>&1)
+          STATUS=$?
+          echo "$OUT"
+          if [ $STATUS -ne 0 ]; then
+            echo "$OUT" | head -n 30 | while IFS= read -r line; do
+              echo "::error::$line"
+            done
+            exit $STATUS
+          fi
 
       - name: Run widget tests
-        run: flutter test
+        run: |
+          set +e
+          OUT=$(flutter test 2>&1)
+          STATUS=$?
+          echo "$OUT"
+          if [ $STATUS -ne 0 ]; then
+            echo "$OUT" | tail -n 30 | while IFS= read -r line; do
+              echo "::error::$line"
+            done
+            exit $STATUS
+          fi
 
       - name: Build release APK
         run: flutter build apk --release

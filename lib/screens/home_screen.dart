@@ -455,7 +455,7 @@ class HomeScreen extends ConsumerWidget {
                           child: ListView.separated(
                             scrollDirection: Axis.horizontal,
                             itemCount: picked.length,
-                            separatorBuilder: (_, __) =>
+                            separatorBuilder: (context, index) =>
                                 const SizedBox(width: 14),
                             itemBuilder: (context, index) {
                               final book = picked[index];
@@ -504,7 +504,7 @@ class HomeScreen extends ConsumerWidget {
                           child: ListView.separated(
                             scrollDirection: Axis.horizontal,
                             itemCount: finishTonight.length,
-                            separatorBuilder: (_, __) =>
+                            separatorBuilder: (context, index) =>
                                 const SizedBox(width: 14),
                             itemBuilder: (context, index) {
                               final book = finishTonight[index];
@@ -569,7 +569,7 @@ class _GoalRingPainter extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
-    final strokeWidth = 5.0;
+    const strokeWidth = 5.0;
     final center = Offset(size.width / 2, size.height / 2);
     final radius = (size.width - strokeWidth) / 2;
 

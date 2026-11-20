@@ -89,7 +89,7 @@ class _ExploreScreenState extends ConsumerState<ExploreScreen> {
                     child: ListView.separated(
                       scrollDirection: Axis.horizontal,
                       itemCount: genres.length,
-                      separatorBuilder: (_, __) => const SizedBox(width: 8),
+                      separatorBuilder: (context, index) => const SizedBox(width: 8),
                       itemBuilder: (context, index) {
                         final genre = genres[index];
                         return FolioChip(
@@ -114,7 +114,7 @@ class _ExploreScreenState extends ConsumerState<ExploreScreen> {
                     child: ListView.separated(
                       scrollDirection: Axis.horizontal,
                       itemCount: popular.length,
-                      separatorBuilder: (_, __) => const SizedBox(width: 14),
+                      separatorBuilder: (context, index) => const SizedBox(width: 14),
                       itemBuilder: (context, index) {
                         final book = popular[index];
                         return _ExploreBookTile(
@@ -134,7 +134,7 @@ class _ExploreScreenState extends ConsumerState<ExploreScreen> {
                     child: ListView.separated(
                       scrollDirection: Axis.horizontal,
                       itemCount: rising.length,
-                      separatorBuilder: (_, __) => const SizedBox(width: 14),
+                      separatorBuilder: (context, index) => const SizedBox(width: 14),
                       itemBuilder: (context, index) {
                         final book = rising[index];
                         return _ExploreBookTile(

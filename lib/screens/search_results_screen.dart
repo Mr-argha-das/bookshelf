@@ -122,7 +122,7 @@ class _SearchResultsScreenState extends ConsumerState<SearchResultsScreen> {
                 ),
                 scrollDirection: Axis.horizontal,
                 itemCount: _filters.length,
-                separatorBuilder: (_, __) => const SizedBox(width: 8),
+                separatorBuilder: (context, index) => const SizedBox(width: 8),
                 itemBuilder: (context, index) {
                   final f = _filters[index];
                   return FolioChip(
