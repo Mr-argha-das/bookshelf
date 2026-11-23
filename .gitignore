@@ -8,3 +8,6 @@ film/*.mp3
 
 # Requested small teaser is intentionally included in Git.
 !film/the-search-for-truth-teaser-40s.mp4
+
+# Requested Part II trailer deliverable.
+!film/the-search-for-truth-part2-70s.mp4
