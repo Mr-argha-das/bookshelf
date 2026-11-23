@@ -1,8 +1,9 @@
 # rendered media and intermediate assets (regenerate with documentary/episode-01/tools)
 documentary/episode-01/build/
 documentary/episode-01/shots/
-documentary/episode-01/render/*.mp4
+# keep the delivered cuts, ignore the per-segment render intermediates
 documentary/episode-01/render/seg-*.mp4
+documentary/episode-01/render/episode-01.mp4
 image-search/
 
 # python
