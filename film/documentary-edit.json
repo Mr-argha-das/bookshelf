@@ -1,0 +1,131 @@
+{
+  "duration": 70,
+  "fps": 24,
+  "shots": [
+    [
+      0,
+      4,
+      "ocean",
+      "EARTH / A WORLD WITHOUT LIFE"
+    ],
+    [
+      4,
+      8,
+      "underwater",
+      "BENEATH THE SURFACE"
+    ],
+    [
+      8,
+      12.5,
+      "life",
+      "LIFE FINDS A WAY"
+    ],
+    [
+      12.5,
+      17,
+      "underwater",
+      "FROM CHEMISTRY TO BIOLOGY"
+    ],
+    [
+      17,
+      22.3,
+      "humans",
+      "THE HUMAN STORY"
+    ],
+    [
+      22.3,
+      27,
+      "city",
+      "CIVILIZATIONS RISE"
+    ],
+    [
+      27,
+      32,
+      "philosophy",
+      "EXISTENCE. CONSCIOUSNESS."
+    ],
+    [
+      32,
+      36,
+      "manuscript",
+      "A COSMOS TO UNDERSTAND"
+    ],
+    [
+      36,
+      40,
+      "observatory",
+      "OBSERVING THE UNIVERSE"
+    ],
+    [
+      40,
+      44,
+      "evidence",
+      "EVIDENCE. MATHEMATICS. OBSERVATION."
+    ],
+    [
+      44,
+      48,
+      "universe",
+      "ACROSS TIME"
+    ],
+    [
+      48,
+      51,
+      "ocean",
+      "THE ORIGIN OF LIFE"
+    ],
+    [
+      51,
+      54,
+      "humans",
+      "EVOLUTION"
+    ],
+    [
+      54,
+      57,
+      "city",
+      "CIVILIZATION"
+    ],
+    [
+      57,
+      60,
+      "philosophy",
+      "THE SEARCH FOR GOD"
+    ],
+    [
+      60,
+      63,
+      "eye",
+      "OUR PLACE IN THE UNIVERSE"
+    ],
+    [
+      63,
+      70,
+      "universe",
+      "THE SEARCH FOR TRUTH"
+    ]
+  ],
+  "voice_cues": [
+    [
+      1,
+      "voice-01.wav"
+    ],
+    [
+      23,
+      "voice-02.wav"
+    ],
+    [
+      36,
+      "voice-03.wav"
+    ],
+    [
+      44,
+      "voice-04.wav"
+    ],
+    [
+      60,
+      "voice-05.wav"
+    ]
+  ],
+  "provenance": "Original procedural rotating sphere, orbital diagrams, flowing particles, independent cell-like objects and rotating data network; AI historical/environment plates with animated composites. No articulated human footage. Conceptual not physical simulations. Hydrothermal origin is a hypothesis, not established fact. Approved voice, original synthesized score; 720p composite to 1080p delivery."
+}

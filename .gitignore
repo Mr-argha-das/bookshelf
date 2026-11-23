@@ -11,3 +11,6 @@ film/*.mp3
 
 # Requested Part II trailer deliverable.
 !film/the-search-for-truth-part2-70s.mp4
+
+# Documentary recut requested deliverable.
+!film/the-search-for-truth-documentary-70s.mp4
