@@ -1,0 +1,11 @@
+# rendered media and intermediate assets (regenerate with documentary/episode-01/tools)
+documentary/episode-01/build/
+documentary/episode-01/shots/
+documentary/episode-01/render/*.mp4
+documentary/episode-01/render/seg-*.mp4
+image-search/
+
+# python
+__pycache__/
+*.pyc
+.venv/
