@@ -6,6 +6,7 @@
     1920,
     1080
   ],
+  "version": 2,
   "voice_cues": [
     [
       1.0,
@@ -113,6 +114,88 @@
       "title",
       ""
     ]
+  ],
+  "text_beats": [
+    [
+      0.8,
+      4.6,
+      "KABHI SOCHO...",
+      "A journey before our beginning",
+      "lower"
+    ],
+    [
+      4.6,
+      7.2,
+      "BEFORE EARTH",
+      "Before our world existed",
+      "lower"
+    ],
+    [
+      7.2,
+      9.0,
+      "BEFORE LIFE",
+      "Before there was anyone to ask",
+      "lower"
+    ],
+    [
+      9.0,
+      11.6,
+      "WHAT WOULD WE SEE?",
+      "",
+      "center"
+    ],
+    [
+      11.6,
+      14.8,
+      "13.8 BILLION",
+      "YEARS AGO",
+      "center"
+    ],
+    [
+      14.8,
+      17.5,
+      "THE FIRST LIGHT",
+      "A Universe in the making",
+      "lower"
+    ],
+    [
+      19.4,
+      21.35,
+      "WHO ARE WE?",
+      "",
+      "lower"
+    ],
+    [
+      21.35,
+      22.9,
+      "WHERE DID WE COME FROM?",
+      "",
+      "lower"
+    ],
+    [
+      22.9,
+      25.3,
+      "WHY DOES IT EXIST?",
+      "",
+      "lower"
+    ],
+    [
+      26.3,
+      29.8,
+      "IS THERE A CREATOR?",
+      "An open question",
+      "lower"
+    ]
+  ],
+  "vfx_inputs": [
+    "earth-surface.jpg"
+  ],
+  "vfx": [
+    "rotating shaded textured planet",
+    "differential accretion flow",
+    "animated water and clouds",
+    "lens halation",
+    "tracked type reveals"
   ],
   "narration": "Kabhi socho... Agar hum waqt mein peeche ja sakein... Itna peeche, jahan na koi duniya thi, na koi zameen... na koi zindagi. Toh hum kya dekhenge? 13.8 billion years pehle... Universe apni journey shuru kar raha tha. Hum kaun hain? Hum kahan se aaye hain? Ye Universe kyun exist karta hai? Kya is poore existence ke peeche koi Creator hai? THE SEARCH FOR TRUTH. Across time. Beyond existence. In search of truth.",
   "provenance": "AI photographic plates, procedural VFX, original synthesized score and excerpts of the approved voice. Not live-action. The black-hole motif is not a depiction of the Big Bang or a creator."

@@ -10,17 +10,20 @@ import cv2
 import numpy as np
 from PIL import Image, ImageDraw, ImageFont, ImageOps
 import imageio_ffmpeg
+from teaser_vfx import TeaserVFX
 
 ROOT=Path(__file__).resolve().parent;INPUT=ROOT/'teaser-inputs';TMP=ROOT/'render'
 TMP.mkdir(exist_ok=True)
 W,H,OW,OH,FPS,DURATION=1280,720,1920,1080,24,40
 SR=48000;FF=imageio_ffmpeg.get_ffmpeg_exe()
 FONT='/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf'
+BOLD='/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf'
 cv2.setNumThreads(2)
 rng=np.random.default_rng(271126)
 yy,xx=np.mgrid[0:H,0:W].astype(np.float32);u=xx/W;v=yy/H
 rad=np.sqrt(((u-.5)*1.4)**2+(v-.5)**2)
 vignette=np.clip(1-.16*rad**1.4,.83,1)
+vfx=TeaserVFX(INPUT,W,H)
 
 # Every cue is an excerpt of the user's locked script, in the approved voice.
 VOICES=[(1.0,'voice-01.wav'),(12.6,'voice-02.wav'),(20.0,'voice-03.wav'),
@@ -31,8 +34,20 @@ SHOTS=[(0,.8,'black',''),(.8,4.6,'ocean','wide'),(4.6,7.2,'earth','retreat'),
  (19.4,22.6,'skywatchers','wide'),(22.6,24.9,'humans','wide'),
  (24.9,26.3,'manuscript','detail'),(26.3,29.8,'cosmos','wide'),
  (29.8,31.3,'black',''),(31.3,40,'title','')]
+# Visible story beats, timed to the approved voice excerpts.
+TEXT_BEATS=[(.8,4.6,'KABHI SOCHO...','A journey before our beginning','lower'),
+ (4.6,7.2,'BEFORE EARTH','Before our world existed','lower'),
+ (7.2,9.0,'BEFORE LIFE','Before there was anyone to ask','lower'),
+ (9.0,11.6,'WHAT WOULD WE SEE?','','center'),
+ (11.6,14.8,'13.8 BILLION','YEARS AGO','center'),
+ (14.8,17.5,'THE FIRST LIGHT','A Universe in the making','lower'),
+ (19.4,21.35,'WHO ARE WE?','','lower'),
+ (21.35,22.9,'WHERE DID WE COME FROM?','','lower'),
+ (22.9,25.3,'WHY DOES IT EXIST?','','lower'),
+ (26.3,29.8,'IS THERE A CREATOR?','An open question','lower')]
 metadata={'duration':DURATION,'fps':FPS,'frames':DURATION*FPS,'resolution':[OW,OH],
- 'voice_cues':VOICES,'shots':SHOTS,
+ 'version':2,'voice_cues':VOICES,'shots':SHOTS,'text_beats':TEXT_BEATS,
+ 'vfx_inputs':['earth-surface.jpg'],'vfx':['rotating shaded textured planet','differential accretion flow','animated water and clouds','lens halation','tracked type reveals'],
  'narration':'Kabhi socho... Agar hum waqt mein peeche ja sakein... Itna peeche, jahan na koi duniya thi, na koi zameen... na koi zindagi. Toh hum kya dekhenge? 13.8 billion years pehle... Universe apni journey shuru kar raha tha. Hum kaun hain? Hum kahan se aaye hain? Ye Universe kyun exist karta hai? Kya is poore existence ke peeche koi Creator hai? THE SEARCH FOR TRUTH. Across time. Beyond existence. In search of truth.',
  'provenance':'AI photographic plates, procedural VFX, original synthesized score and excerpts of the approved voice. Not live-action. The black-hole motif is not a depiction of the Big Bang or a creator.'}
 (ROOT/'teaser40-edit.json').write_text(json.dumps(metadata,indent=2))
@@ -60,7 +75,27 @@ TITLE=title_layer();TITLE_TAG=title_layer(True)
 star_points=rng.random((240,5))
 
 
+# Text is a visible editorial element, not confined to the final title.
+TYPE_LAYERS={}
+for a,b,main,sub,style in TEXT_BEATS:
+    im=Image.new('RGBA',(OW,OH));d=ImageDraw.Draw(im)
+    if style=='center':
+        d.text((OW//2,418),main,font=ImageFont.truetype(FONT,104 if len(main)<18 else 80),fill=(245,244,238,255),anchor='mt')
+        if sub:d.text((OW//2,565),sub,font=ImageFont.truetype(FONT,32),fill=(192,207,217,255),anchor='mt')
+    else:
+        d.line((113,738,170,738),fill=(175,193,203,255),width=3)
+        size=64 if len(main)<25 else 54
+        d.text((111,765),main,font=ImageFont.truetype(BOLD,size),fill=(246,245,240,255))
+        if sub:d.text((114,856),sub,font=ImageFont.truetype(FONT,25),fill=(196,211,219,255))
+    TYPE_LAYERS[a]=np.array(im)
+
+
 def scene(key,t,p,mode):
+    if key=='earth':
+        im=vfx.planet(t-4.6)*vignette[:,:,None]
+        bright=np.maximum(im-160,0)
+        im+=cv2.GaussianBlur(bright,(0,0),4)*.16
+        return np.clip(im,0,255).astype(np.uint8)
     zoom=1.025+.07*p;cx,cy=.5,.5
     if mode=='detail':zoom=1.14+.07*p
     if mode=='retreat':zoom=1.12-.08*p
@@ -74,17 +109,17 @@ def scene(key,t,p,mode):
         water=np.clip((v-.52)/.15,0,1)*np.clip((.90-v)/.12,0,1)
         human=np.exp(-(((u-.59)/.055)**2+((v-.63)/.17)**2)*3)
         water*=1-human
-        mx+=water*3.5*np.sin(yy*.06-t*1.8)
-        my+=water*2*np.sin(xx*.014+yy*.03-t*1.3)
+        mx+=water*12*np.sin(yy*.06-t*1.8)
+        my+=water*6*np.sin(xx*.014+yy*.03-t*1.3)
         sky=np.clip((.49-v)/.18,0,1)
-        mx+=sky*2.8*np.sin(yy*.011+t*.2)
+        mx+=sky*12*np.sin(yy*.011+t*.2)
     elif key=='earth':
         mx+=np.clip((.70-v)/.2,0,1)*2.5*np.sin(yy*.018+t*.2)
     elif key=='life':
         mx+=3*np.sin(yy*.02+t*.7);my+=2.3*np.cos(xx*.014-t*.55)
     elif key=='early':
-        mx+=6*np.sin(yy*.014+t*.7)+2.5*np.sin(xx*.009-t*.4)
-        my+=4*np.sin(xx*.012-t*.52)
+        mx+=13*np.sin(yy*.014+t*.7)+5*np.sin(xx*.009-t*.4)
+        my+=8*np.sin(xx*.012-t*.52)
     elif key=='stars':
         mx+=2.2*np.sin(yy*.03+t*.8);my+=1.7*np.sin(xx*.014-t*.7)
     elif key=='cosmos':
@@ -94,7 +129,14 @@ def scene(key,t,p,mode):
         mx+=ring*np.sin(np.arctan2(dy,dx)*5+t*.55)*1.6
         my+=ring*np.cos(np.arctan2(dy,dx)*4+t*.45)*1.3
     im=cv2.remap(plates[key],mx.astype(np.float32),my.astype(np.float32),cv2.INTER_LINEAR,borderMode=cv2.BORDER_REFLECT).astype(np.float32)
-    if key=='early':im*=1+.09*np.sin(t*.7)
+    if key=='early':
+        im*=1+.16*np.sin(t*.7)
+        if 11.6<=t<14.8:
+            rr=np.sqrt(((u-.5)*1.5)**2+(v-.5)**2)
+            wave=np.exp(-((rr-(t-11.6)*.20)/.022)**2)*np.exp(-(t-11.6)*.7)
+            im+=wave[:,:,None]*np.array([55,62,69])
+    if key=='cosmos':im+=vfx.accretion(t-26.3)
+
     if key in ('cosmos','universe','skywatchers'):
         light=np.zeros_like(im)
         for x,y,a,b,c in star_points:
@@ -105,7 +147,11 @@ def scene(key,t,p,mode):
             cv2.circle(light,(px,py),1,(155*intensity,175*intensity,193*intensity),-1,cv2.LINE_AA)
         im+=light
     if key=='ocean':
-        im*=1+(water*.045*np.sin(yy*.10-t*2.4))[:,:,None]
+        im*=1+(water*.12*np.sin(yy*.10-t*2.4))[:,:,None]
+        # A single broad distant lightning swell; never a rapid strobe.
+        flash=.12*np.exp(-((t-2.25)/.12)**2)
+        im+=np.clip((.65-v)/.35,0,1)[:,:,None]*np.array([155,170,185])*flash
+
     # Controlled photochemical-style halation and short horizontal lens scatter.
     bright=np.maximum(im-170,0)
     small=cv2.resize(bright,(W//4,H//4))
@@ -133,6 +179,18 @@ def frame_at(t):
         if a==9.0:frame=(frame*min(1,(b-t)/1.1)*.65).astype(np.uint8)
         if a==11.6:frame=(frame*min(1,local/.65)).astype(np.uint8)
         if b==29.8:frame=(frame*min(1,(b-t)/.35)).astype(np.uint8)
+    if key not in ('black','title'):
+        for ta,tb,main,sub,style in TEXT_BEATS:
+            if ta<=t<tb:
+                reveal=min(1,(t-ta)/.28)*min(1,(tb-t)/.18)
+                dim=.43 if style=='center' else .12
+                frame=(frame*(1-dim*reveal)).astype(np.uint8)
+                layer=TYPE_LAYERS[ta]
+                offset=round(24*(1-min(1,(t-ta)/.35))**2)
+                if offset:layer=cv2.warpAffine(layer,np.float32([[1,0,offset],[0,1,0]]),(OW,OH))
+                alpha=layer[:,:,3:4]/255*reveal
+                frame=(frame*(1-alpha)+layer[:,:,:3]*alpha).astype(np.uint8)
+                break
     frame[:138]=0;frame[-138:]=0
     if key=='title':
         im=Image.fromarray(frame);d=ImageDraw.Draw(im)
@@ -164,7 +222,7 @@ for j,(at,ch) in enumerate([(0,[45,52,59,60]),(10.5,[41,48,55,57]),(19.4,[38,45,
     for midi in ch:
         f=440*2**((midi-69)/12)
         for h,amp in [(1,1),(2,.20),(3,.06)]:pad+=.011*amp*np.sin(2*np.pi*f*h*t+.10*np.sin(t*.3))*env
-    add(at,pad,.7+j*.11)
+    add(at,pad,.9+j*.14)
 for at,note in [(1.8,69),(7.3,76),(12.6,71),(18.7,64),(23.5,67),(27,71),(31.3,69),(35.2,76)]:
     t=np.arange(int(5*SR))/SR;f=440*2**((note-69)/12)
     piano=(np.sin(2*np.pi*f*t)+.25*np.sin(2*np.pi*f*2.002*t))*(1-np.exp(-t*130))*np.exp(-t*1.35)*.055
@@ -172,12 +230,18 @@ for at,note in [(1.8,69),(7.3,76),(12.6,71),(18.7,64),(23.5,67),(27,71),(31.3,69
 for at in np.arange(12.6,29.4,.83):
     t=np.arange(int(.6*SR))/SR
     add(at,np.sin(2*np.pi*(37*t+.7*(1-np.exp(-t*20))))*np.exp(-t*11)*.06)
-for at in [11.6,19.4,26.3,31.3]:
+for at in [.8,4.6,7.2,11.6,19.4,26.3,31.3]:
     t=np.arange(int(2.6*SR))/SR
     hit=.14*np.sin(2*np.pi*36.7*t)*np.exp(-t*3.2)
     air=rng.standard_normal(len(t)).astype(np.float32)
     air=np.convolve(air,np.ones(41)/41,mode='same')
-    add(at,hit+air*np.exp(-t*4)*.04)
+    add(at,hit+air*np.exp(-t*4)*.05)
+    # Short rising air before the cut, linked to the type/visual reveal.
+    pre=np.arange(int(.45*SR))/SR
+    sw=rng.standard_normal(len(pre))
+    sw=np.convolve(sw,np.ones(21)/21,mode='same')*(pre/.45)**2*.08
+    add(at-.45,sw)
+
 # Natural wind/surf room tone grounds the opening; it bridges the first cut.
 noise=rng.standard_normal(N).astype(np.float32)
 wind=cv2.GaussianBlur(noise.reshape(1,-1),(0,0),13).ravel()
