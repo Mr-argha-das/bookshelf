@@ -1,0 +1,10 @@
+.venv/
+film/assets/
+film/audio/
+film/render/
+film/*.mp4
+__pycache__/
+film/*.mp3
+
+# Requested small teaser is intentionally included in Git.
+!film/the-search-for-truth-teaser-40s.mp4

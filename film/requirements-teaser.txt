@@ -1,0 +1,4 @@
+pillow==13.0.0
+numpy==2.4.6
+imageio-ffmpeg==0.8.1
+opencv-python-headless==5.1.0.95
