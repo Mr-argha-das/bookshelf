@@ -5,6 +5,29 @@ A ~6:30 Hindi-language science documentary short, built entirely from the
 script in this repo. Facts are stated as facts, beliefs as beliefs; where
 science has no answer, the film says so.
 
+## Download
+
+These are committed to the repo, so the links below work in any browser:
+
+| File | Size | Link |
+|---|---|---|
+| 1080p (web master) | 51 MB | `render/episode-01-1080p-web.mp4` |
+| 720p (share/WhatsApp) | 23 MB | `render/episode-01-720p.mp4` |
+| Subtitles | 2 KB | `render/episode-01.en.srt` |
+| Poster | 1.2 MB | `render/poster.png` |
+
+Direct download, 720p:
+https://github.com/Mr-argha-das/bookshelf/raw/arena/9df4b7a0-bookshelf/documentary/episode-01/render/episode-01-720p.mp4
+
+Direct download, 1080p:
+https://github.com/Mr-argha-das/bookshelf/raw/arena/9df4b7a0-bookshelf/documentary/episode-01/render/episode-01-1080p-web.mp4
+
+The 90 MB high-bitrate master (`render/episode-01.mp4`) is intentionally not
+committed; re-create it with `python tools/video.py --assemble`.
+
+There is also a small download page with an inline player and subtitle track:
+`python tools/serve.py 8000` then open the sandbox preview for that port.
+
 **Final film:** `render/episode-01.mp4` (1920×1080, 24 fps, H.264 + AAC, 6:40,
 −16 LUFS integrated, −1.5 dBTP)
 **Poster:** `render/poster.png` (1600×2000)
